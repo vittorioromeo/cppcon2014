@@ -182,8 +182,10 @@ int main()
     for(int iX{0}; iX < brkCountX; ++iX)    
         for(int iY{0}; iY < brkCountY; ++iY)        
         {
-            float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
-            float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
+            float x{(iX + brkStartColumn) 
+                * (Brick::defWidth + brkSpacing)};
+            float y{(iY + brkStartRow) 
+                * (Brick::defHeight + brkSpacing)};
 
             bricks.emplace_back(brkOffsetX + x, y); 
         }
@@ -195,7 +197,8 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+            break;
 
         ball.update();
         paddle.update();

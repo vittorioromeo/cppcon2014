@@ -215,8 +215,10 @@ int main()
     for(int iX{0}; iX < brkCountX; ++iX)    
         for(int iY{0}; iY < brkCountY; ++iY)        
         {
-            float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
-            float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
+            float x{(iX + brkStartColumn) 
+                * (Brick::defWidth + brkSpacing)};
+            float y{(iY + brkStartRow) 
+                * (Brick::defHeight + brkSpacing)};
 
             bricks.emplace_back(brkOffsetX + x, y); 
         }
@@ -228,7 +230,8 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+            break;
 
         ball.update();
         paddle.update();
@@ -248,15 +251,17 @@ int main()
         // bricks from the brick vector - using a generic C++14 lambda.
 
         // `std::remove_if` re-arranges the elements of a container
-        // in such a way that elements to be erased are moved towards the 
-        // end of a vector. 
+        // in such a way that elements to be erased are moved towards 
+        // the end of a vector. 
 
-        // By calling `std::vector::erase` with the iterator returned by
-        // `std::remove_if` and the end iterator, we remove all the
+        // By calling `std::vector::erase` with the iterator returned
+        // by `std::remove_if` and the end iterator, we remove all the
         // destroyed bricks.
-        bricks.erase(std::remove_if(std::begin(bricks), std::end(bricks), 
+        bricks.erase(
+            std::remove_if(std::begin(bricks), std::end(bricks), 
             [](const auto& mBrick){ return mBrick.destroyed; }), 
-            std::end(bricks));
+            std::end(bricks)
+        );
 
         solvePaddleBallCollision(paddle, ball);
 

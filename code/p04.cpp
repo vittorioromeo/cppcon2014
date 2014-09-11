@@ -53,8 +53,8 @@ private:
 
 const sf::Color Ball::defColor{sf::Color::Red};
 
-// Like the ball, the `Paddle` class will represent a game object, with
-// its own `update` and `draw` methods.
+// Like the ball, the `Paddle` class will represent a game object, 
+// with its own `update` and `draw` methods.
 class Paddle
 {
 public:
@@ -150,7 +150,8 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+            break;
 
         // And let's update and draw it.
 

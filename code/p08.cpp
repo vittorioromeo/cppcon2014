@@ -5,9 +5,9 @@
 
 constexpr unsigned int wndWidth{800}, wndHeight{600};
 
-// First of all, we have trivial code repetition for our "simple getters". 
-// It is sufficient to create two base classes our objects will inherit 
-// from: one for rectangles and one for circles.
+// First of all, we have trivial code repetition for our "simple 
+// getters". It is sufficient to create two base classes our objects 
+// will inherit from: one for rectangles and one for circles.
 struct Rectangle
 {
     sf::RectangleShape shape;
@@ -191,8 +191,10 @@ int main()
     for(int iX{0}; iX < brkCountX; ++iX)    
         for(int iY{0}; iY < brkCountY; ++iY)        
         {
-            float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
-            float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
+            float x{(iX + brkStartColumn) 
+                * (Brick::defWidth + brkSpacing)};
+            float y{(iY + brkStartRow) 
+                * (Brick::defHeight + brkSpacing)};
 
             bricks.emplace_back(brkOffsetX + x, y); 
         }
@@ -204,7 +206,8 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+            break;
 
         ball.update();
         paddle.update();
@@ -214,9 +217,11 @@ int main()
             solveBrickBallCollision(brick, ball);
         }
 
-        bricks.erase(std::remove_if(std::begin(bricks), std::end(bricks), 
+        bricks.erase(
+            std::remove_if(std::begin(bricks), std::end(bricks), 
             [](const auto& mBrick){ return mBrick.destroyed; }), 
-            std::end(bricks));
+            std::end(bricks)
+        );
 
         solvePaddleBallCollision(paddle, ball);
 

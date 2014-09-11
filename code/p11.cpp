@@ -136,7 +136,10 @@ public:
         solveBoundCollisions();
     }
 
-    void draw(sf::RenderWindow& mTarget) override { mTarget.draw(shape); }
+    void draw(sf::RenderWindow& mTarget) override 
+    { 
+        mTarget.draw(shape);
+    }
 
 private:
     void solveBoundCollisions() noexcept
@@ -391,11 +394,13 @@ public:
             }
             else
             {
-                // If there are no more balls on the screen, spawn a new
-                // one and remove a life.
+                // If there are no more balls on the screen, spawn a 
+                // new one and remove a life.
                 if(manager.getAll<Ball>().empty())
                 {
-                    manager.create<Ball>(wndWidth / 2.f, wndHeight / 2.f);
+                    manager.create<Ball>(wndWidth / 2.f, 
+                        wndHeight / 2.f);
+                    
                     --remainingLives;
                 }
 

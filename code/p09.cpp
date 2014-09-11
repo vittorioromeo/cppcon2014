@@ -271,7 +271,8 @@ public:
                 bricks.erase(
                     std::remove_if(std::begin(bricks), std::end(bricks), 
                     [](const auto& mBrick){ return mBrick.destroyed; }), 
-                    std::end(bricks));
+                    std::end(bricks)
+                );
 
                 solvePaddleBallCollision(paddle, ball);
             }

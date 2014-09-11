@@ -153,13 +153,14 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+            break;
 
         ball.update();
         paddle.update();
 
-        // After updating the ball and the paddle, let's check and resolve
-        // eventual collisions.
+        // After updating the ball and the paddle, let's check and
+        // resolve eventual collisions.
         solvePaddleBallCollision(paddle, ball);
 
         ball.draw(window);

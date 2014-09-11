@@ -111,7 +111,8 @@ public:
             vector.erase(
                 std::remove_if(std::begin(vector), std::end(vector), 
                 [](auto mPtr){ return mPtr->destroyed; }), 
-                std::end(vector));
+                std::end(vector)
+            );
         }
 
         // After that, we use the same idiom on the `entities` vector.
@@ -120,7 +121,8 @@ public:
         entities.erase(
             std::remove_if(std::begin(entities), std::end(entities), 
             [](const auto& mUPtr){ return mUPtr->destroyed; }),
-            std::end(entities));
+            std::end(entities)
+        );
     }
 
     // We'll also need a `clear` method to destroy all entities.
