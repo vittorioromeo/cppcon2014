@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // In this code segment we'll start implementing the first
 // game object: the ball. We will create a class for it and
 // learn how to use SFML shapes to display and move the ball.

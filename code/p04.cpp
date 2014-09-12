@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // We're still missing two important elements: the paddle 
 // and the bricks. We'll start by implementing a player 
 // controlled paddle in this code segment.

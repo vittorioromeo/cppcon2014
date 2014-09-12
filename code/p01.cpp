@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // Let's begin the development of our arkanoid clone.
 
 // We'll start by creating a blank window using the SFML library.

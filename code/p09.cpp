@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // In this code segment we'll start improving the game's code 
 // architecture. The first step will be creating a `Game` class
 // that will encapsulate the game's state.

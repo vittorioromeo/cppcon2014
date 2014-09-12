@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // In this last code segment, we'll add some features to our game
 // and finish it:
 // * Text

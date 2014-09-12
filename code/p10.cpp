@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // The next step that will greatly improve our code architecture
 // is creating a system that allows us to quickly create new 
 // game object types during development, and also instantiate and

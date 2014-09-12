@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Vittorio Romeo
+// License: MIT License | http://opensource.org/licenses/MIT
+// http://vittorioromeo.info | vittorio.romeo@outlook.com
+
 // Let's now implement the last fundamental game element: the bricks.
 // In this code segment we'll only create the class and "spawn" a
 // grid of bricks in the game world.
