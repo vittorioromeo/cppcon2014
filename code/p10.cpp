@@ -88,6 +88,12 @@ public:
         // Let's use it as the key for the `groupedEntities` entry.
         groupedEntities[typeid(T).hash_code()].emplace_back(ptr);
 
+        // [07/10/2014 addendum]: `hash_code()` does not actually guarantee
+        // that the codes generated for two different types will be 
+        // unique. Learn more about this issue and a possible solution on
+        // cppreference:
+        // http://en.cppreference.com/w/cpp/types/type_info/hash_code
+
         // Now let's move the `std::unique_ptr` in the `entities` 
         // vector.
         entities.emplace_back(std::move(uPtr));
