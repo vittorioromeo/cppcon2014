@@ -421,11 +421,11 @@ public:
 
                 manager.forEach<Ball>([this](auto& mBall)
                 {
-                    manager.forEach<Brick>([this, &mBall](auto& mBrick)
+                    manager.forEach<Brick>([&mBall](auto& mBrick)
                     {
                         solveBrickBallCollision(mBrick, mBall);
                     });
-                    manager.forEach<Paddle>([this, &mBall](auto& mPaddle)
+                    manager.forEach<Paddle>([&mBall](auto& mPaddle)
                     {
                         solvePaddleBallCollision(mPaddle, mBall);
                     });
