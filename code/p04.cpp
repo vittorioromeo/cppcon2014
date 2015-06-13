@@ -84,7 +84,7 @@ public:
 
     void update()
     {
-        // Before moving the ball, we'll process player input,
+        // Before moving the paddle, we'll process player input,
         // changing the paddle's velocity.
         processPlayerInput();
         shape.move(velocity);
