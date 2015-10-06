@@ -20,9 +20,9 @@ class Entity
 public:
     bool destroyed{false};
 
-    virtual ~Entity() { }
-    virtual void update() { } 
-    virtual void draw(sf::RenderWindow& mTarget) { }
+    virtual ~Entity() {}
+    virtual void update() {}
+    virtual void draw(sf::RenderWindow& mTarget) {}
 };
 
 class Manager
@@ -32,9 +32,10 @@ private:
     std::map<std::size_t, std::vector<Entity*>> groupedEntities;
 
 public:
-    template<typename T, typename... TArgs> T& create(TArgs&&... mArgs)
+    template <typename T, typename... TArgs>
+    T& create(TArgs&&... mArgs)
     {
-        static_assert(std::is_base_of<Entity, T>::value, 
+        static_assert(std::is_base_of<Entity, T>::value,
             "`T` must be derived from `Entity`");
 
         auto uPtr(std::make_unique<T>(std::forward<TArgs>(mArgs)...));
@@ -43,7 +44,7 @@ public:
         entities.emplace_back(std::move(uPtr));
 
         return *ptr;
-    }   
+    }
 
     void refresh()
     {
@@ -51,43 +52,47 @@ public:
         {
             auto& vector(pair.second);
 
-            vector.erase(
-                std::remove_if(std::begin(vector), std::end(vector), 
-                [](auto mPtr){ return mPtr->destroyed; }), 
+            vector.erase(std::remove_if(std::begin(vector), std::end(vector),
+                             [](auto mPtr)
+                             {
+                                 return mPtr->destroyed;
+                             }),
                 std::end(vector));
         }
 
-        entities.erase(
-            std::remove_if(std::begin(entities), std::end(entities), 
-            [](const auto& mUPtr){ return mUPtr->destroyed; }), 
+        entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+                           [](const auto& mUPtr)
+                           {
+                               return mUPtr->destroyed;
+                           }),
             std::end(entities));
     }
 
-    void clear() 
-    { 
-        groupedEntities.clear(); 
-        entities.clear(); 
-    }
-    
-    template<typename T> auto& getAll() 
-    { 
-        return groupedEntities[typeid(T).hash_code()]; 
+    void clear()
+    {
+        groupedEntities.clear();
+        entities.clear();
     }
 
-    template<typename T, typename TFunc> 
+    template <typename T>
+    auto& getAll()
+    {
+        return groupedEntities[typeid(T).hash_code()];
+    }
+
+    template <typename T, typename TFunc>
     void forEach(const TFunc& mFunc)
     {
-        for(auto ptr : getAll<T>()) 
-            mFunc(*reinterpret_cast<T*>(ptr));
+        for(auto ptr : getAll<T>()) mFunc(*reinterpret_cast<T*>(ptr));
     }
 
-    void update()                           
-    { 
-        for(auto& e : entities) e->update(); 
+    void update()
+    {
+        for(auto& e : entities) e->update();
     }
-    void draw(sf::RenderWindow& mTarget)    
-    { 
-        for(auto& e : entities) e->draw(mTarget); 
+    void draw(sf::RenderWindow& mTarget)
+    {
+        for(auto& e : entities) e->draw(mTarget);
     }
 };
 
@@ -95,27 +100,27 @@ struct Rectangle
 {
     sf::RectangleShape shape;
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float width() const noexcept    { return shape.getSize().x; }
-    float height() const noexcept   { return shape.getSize().y; }
-    float left() const noexcept     { return x() - width() / 2.f; }
-    float right() const noexcept    { return x() + width() / 2.f; }
-    float top() const noexcept      { return y() - height() / 2.f; }
-    float bottom() const noexcept   { return y() + height() / 2.f; }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float width() const noexcept { return shape.getSize().x; }
+    float height() const noexcept { return shape.getSize().y; }
+    float left() const noexcept { return x() - width() / 2.f; }
+    float right() const noexcept { return x() + width() / 2.f; }
+    float top() const noexcept { return y() - height() / 2.f; }
+    float bottom() const noexcept { return y() + height() / 2.f; }
 };
 
 struct Circle
 {
     sf::CircleShape shape;
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float radius() const noexcept   { return shape.getRadius(); }
-    float left() const noexcept     { return x() - radius(); }
-    float right() const noexcept    { return x() + radius(); }
-    float top() const noexcept      { return y() - radius(); }
-    float bottom() const noexcept   { return y() + radius(); }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float radius() const noexcept { return shape.getRadius(); }
+    float left() const noexcept { return x() - radius(); }
+    float right() const noexcept { return x() + radius(); }
+    float top() const noexcept { return y() - radius(); }
+    float bottom() const noexcept { return y() + radius(); }
 };
 
 class Ball : public Entity, public Circle
@@ -140,21 +145,21 @@ public:
         solveBoundCollisions();
     }
 
-    void draw(sf::RenderWindow& mTarget) override 
-    { 
-        mTarget.draw(shape);
-    }
+    void draw(sf::RenderWindow& mTarget) override { mTarget.draw(shape); }
 
 private:
     void solveBoundCollisions() noexcept
     {
-        if(left() < 0) velocity.x = defVelocity;
-        else if(right() > wndWidth) velocity.x = -defVelocity;
+        if(left() < 0)
+            velocity.x = defVelocity;
+        else if(right() > wndWidth)
+            velocity.x = -defVelocity;
 
-        if(top() < 0) velocity.y = defVelocity;
-        else if(bottom() > wndHeight) 
+        if(top() < 0)
+            velocity.y = defVelocity;
+        else if(bottom() > wndHeight)
         {
-            // If the ball leaves the window towards the bottom, 
+            // If the ball leaves the window towards the bottom,
             // we destroy it.
             destroyed = true;
         }
@@ -172,8 +177,8 @@ public:
 
     sf::Vector2f velocity;
 
-    Paddle(float mX, float mY) 
-    { 
+    Paddle(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
         shape.setSize({defWidth, defHeight});
         shape.setFillColor(defColor);
@@ -186,19 +191,18 @@ public:
         shape.move(velocity);
     }
 
-    void draw(sf::RenderWindow& mTarget) override 
-    { 
-        mTarget.draw(shape); 
-    }
+    void draw(sf::RenderWindow& mTarget) override { mTarget.draw(shape); }
 
 private:
     void processPlayerInput()
     {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) 
-            && left() > 0) velocity.x = -defVelocity;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) 
-            && right() < wndWidth) velocity.x = defVelocity;
-        else velocity.x = 0;    
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && left() > 0)
+            velocity.x = -defVelocity;
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) &&
+                right() < wndWidth)
+            velocity.x = defVelocity;
+        else
+            velocity.x = 0;
     }
 };
 
@@ -216,10 +220,10 @@ public:
     // Let's add a field for the required hits.
     int requiredHits{1};
 
-    Brick(float mX, float mY) 
-    { 
+    Brick(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
-        shape.setSize({defWidth, defHeight});       
+        shape.setSize({defWidth, defHeight});
         shape.setOrigin(defWidth / 2.f, defHeight / 2.f);
     }
 
@@ -227,25 +231,25 @@ public:
     {
         // Let's alter the color of the brick depending on the
         // required hits.
-        if(requiredHits == 1) shape.setFillColor(defColorHits1);
-        else if(requiredHits == 2) shape.setFillColor(defColorHits2);
-        else shape.setFillColor(defColorHits3);
+        if(requiredHits == 1)
+            shape.setFillColor(defColorHits1);
+        else if(requiredHits == 2)
+            shape.setFillColor(defColorHits2);
+        else
+            shape.setFillColor(defColorHits3);
     }
-    void draw(sf::RenderWindow& mTarget) override 
-    { 
-        mTarget.draw(shape); 
-    }
+    void draw(sf::RenderWindow& mTarget) override { mTarget.draw(shape); }
 };
 
 const sf::Color Brick::defColorHits1{255, 255, 0, 80};
 const sf::Color Brick::defColorHits2{255, 255, 0, 170};
 const sf::Color Brick::defColorHits3{255, 255, 0, 255};
 
-template<typename T1, typename T2> 
+template <typename T1, typename T2>
 bool isIntersecting(const T1& mA, const T2& mB) noexcept
 {
-    return  mA.right() >= mB.left() && mA.left() <= mB.right() 
-            && mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
+    return mA.right() >= mB.left() && mA.left() <= mB.right() &&
+           mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
 }
 
 void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
@@ -253,14 +257,14 @@ void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
     if(!isIntersecting(mPaddle, mBall)) return;
 
     mBall.velocity.y = -Ball::defVelocity;
-    mBall.velocity.x = mBall.x() < mPaddle.x() ? 
-        -Ball::defVelocity : Ball::defVelocity;
+    mBall.velocity.x =
+        mBall.x() < mPaddle.x() ? -Ball::defVelocity : Ball::defVelocity;
 }
 
 void solveBrickBallCollision(Brick& mBrick, Ball& mBall) noexcept
 {
     if(!isIntersecting(mBrick, mBall)) return;
-    
+
     // Instead of immediately destroying the brick upon collision,
     // we decrease and check its required hits first.
     --mBrick.requiredHits;
@@ -277,45 +281,50 @@ void solveBrickBallCollision(Brick& mBrick, Ball& mBall) noexcept
     float minOverlapX{ballFromLeft ? overlapLeft : overlapRight};
     float minOverlapY{ballFromTop ? overlapTop : overlapBottom};
 
-    if(std::abs(minOverlapX) < std::abs(minOverlapY))   
-        mBall.velocity.x = ballFromLeft ? 
-            -Ball::defVelocity : Ball::defVelocity;
-    else                                        
-        mBall.velocity.y = ballFromTop ? 
-            -Ball::defVelocity : Ball::defVelocity; 
+    if(std::abs(minOverlapX) < std::abs(minOverlapY))
+        mBall.velocity.x =
+            ballFromLeft ? -Ball::defVelocity : Ball::defVelocity;
+    else
+        mBall.velocity.y = ballFromTop ? -Ball::defVelocity : Ball::defVelocity;
 }
 
 class Game
 {
 private:
-    // There now are two additional game states: `GameOver` 
+    // There now are two additional game states: `GameOver`
     // and `Victory`.
-    enum class State{Paused, GameOver, InProgress, Victory};
-    
-    static constexpr int brkCountX{11}, brkCountY{4};       
-    static constexpr int brkStartColumn{1}, brkStartRow{2};     
-    static constexpr float brkSpacing{3.f}, brkOffsetX{22.f};   
+    enum class State
+    {
+        Paused,
+        GameOver,
+        InProgress,
+        Victory
+    };
+
+    static constexpr int brkCountX{11}, brkCountY{4};
+    static constexpr int brkStartColumn{1}, brkStartRow{2};
+    static constexpr float brkSpacing{3.f}, brkOffsetX{22.f};
 
     sf::RenderWindow window{{wndWidth, wndHeight}, "Arkanoid - 11"};
     Manager manager;
 
-    // SFML offers an easy-to-use font and text class that we 
+    // SFML offers an easy-to-use font and text class that we
     // can use to display remaining lives and game status.
     sf::Font liberationSans;
     sf::Text textState, textLives;
 
     State state{State::GameOver};
     bool pausePressedLastFrame{false};
-    
+
     // Let's keep track of the remaning lives in the game class.
     int remainingLives{0};
 
 public:
-    Game() 
-    { 
-        window.setFramerateLimit(60); 
+    Game()
+    {
+        window.setFramerateLimit(60);
 
-        // We need to load a font from file before using 
+        // We need to load a font from file before using
         // our text objects.
         liberationSans.loadFromFile(
             R"(/usr/share/fonts/TTF/LiberationSans-Regular.ttf)");
@@ -340,13 +349,11 @@ public:
         state = State::Paused;
         manager.clear();
 
-        for(int iX{0}; iX < brkCountX; ++iX)    
-            for(int iY{0}; iY < brkCountY; ++iY)        
+        for(int iX{0}; iX < brkCountX; ++iX)
+            for(int iY{0}; iY < brkCountY; ++iY)
             {
-                float x{(iX + brkStartColumn) 
-                    * (Brick::defWidth + brkSpacing)};
-                float y{(iY + brkStartRow) 
-                    * (Brick::defHeight + brkSpacing)};
+                float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
+                float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
 
                 auto& brick(manager.create<Brick>(brkOffsetX + x, y));
 
@@ -364,91 +371,89 @@ public:
         {
             window.clear(sf::Color::Black);
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
-                break;
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
 
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
             {
-                if(!pausePressedLastFrame) 
+                if(!pausePressedLastFrame)
                 {
-                    if(state == State::Paused) 
+                    if(state == State::Paused)
                         state = State::InProgress;
-                    else if(state == State::InProgress) 
+                    else if(state == State::InProgress)
                         state = State::Paused;
                 }
                 pausePressedLastFrame = true;
-            }               
-            else pausePressedLastFrame = false;
+            }
+            else
+                pausePressedLastFrame = false;
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) 
-                restart();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) restart();
 
-            // If the game is not in progress, do not draw or update            
+            // If the game is not in progress, do not draw or update
             // game elements and display information to the player.
             if(state != State::InProgress)
             {
-                if(state == State::Paused) 
+                if(state == State::Paused)
                     textState.setString("Paused");
-                else if(state == State::GameOver) 
+                else if(state == State::GameOver)
                     textState.setString("Game over!");
-                else if(state == State::Victory) 
+                else if(state == State::Victory)
                     textState.setString("You won!");
 
-                window.draw(textState);         
+                window.draw(textState);
             }
             else
             {
-                // If there are no more balls on the screen, spawn a 
+                // If there are no more balls on the screen, spawn a
                 // new one and remove a life.
                 if(manager.getAll<Ball>().empty())
                 {
-                    manager.create<Ball>(wndWidth / 2.f, 
-                        wndHeight / 2.f);
-                    
+                    manager.create<Ball>(wndWidth / 2.f, wndHeight / 2.f);
+
                     --remainingLives;
                 }
 
-                // If there are no more bricks on the screen, 
+                // If there are no more bricks on the screen,
                 // the player won!
-                if(manager.getAll<Brick>().empty()) 
-                    state = State::Victory;
+                if(manager.getAll<Brick>().empty()) state = State::Victory;
 
-                // If the player has no more remaining lives, 
+                // If the player has no more remaining lives,
                 // it's game over!
                 if(remainingLives <= 0) state = State::GameOver;
 
                 manager.update();
 
                 manager.forEach<Ball>([this](auto& mBall)
-                {
-                    manager.forEach<Brick>([&mBall](auto& mBrick)
                     {
-                        solveBrickBallCollision(mBrick, mBall);
+                        manager.forEach<Brick>([&mBall](auto& mBrick)
+                            {
+                                solveBrickBallCollision(mBrick, mBall);
+                            });
+                        manager.forEach<Paddle>([&mBall](auto& mPaddle)
+                            {
+                                solvePaddleBallCollision(mPaddle, mBall);
+                            });
                     });
-                    manager.forEach<Paddle>([&mBall](auto& mPaddle)
-                    {
-                        solvePaddleBallCollision(mPaddle, mBall);
-                    });
-                });
 
                 manager.refresh();
-            
+
                 manager.draw(window);
 
                 // Update lives string and draw it.
-                textLives.setString("Lives: " 
-                    + std::to_string(remainingLives));
-                
+                textLives.setString("Lives: " + std::to_string(remainingLives));
+
                 window.draw(textLives);
             }
 
             window.display();
-        }   
+        }
     }
 };
 
-int main() 
+int main()
 {
-    Game game; game.restart(); game.run();
+    Game game;
+    game.restart();
+    game.run();
     return 0;
 }

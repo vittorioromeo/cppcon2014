@@ -36,21 +36,25 @@ public:
 
     void draw(sf::RenderWindow& mTarget) { mTarget.draw(shape); }
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float left() const noexcept     { return x() - shape.getRadius(); }
-    float right() const noexcept    { return x() + shape.getRadius(); }
-    float top() const noexcept      { return y() - shape.getRadius(); }
-    float bottom() const noexcept   { return y() + shape.getRadius(); }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float left() const noexcept { return x() - shape.getRadius(); }
+    float right() const noexcept { return x() + shape.getRadius(); }
+    float top() const noexcept { return y() - shape.getRadius(); }
+    float bottom() const noexcept { return y() + shape.getRadius(); }
 
 private:
     void solveBoundCollisions() noexcept
     {
-        if(left() < 0) velocity.x = defVelocity;
-        else if(right() > wndWidth) velocity.x = -defVelocity;
+        if(left() < 0)
+            velocity.x = defVelocity;
+        else if(right() > wndWidth)
+            velocity.x = -defVelocity;
 
-        if(top() < 0) velocity.y = defVelocity;
-        else if(bottom() > wndHeight) velocity.y = -defVelocity;
+        if(top() < 0)
+            velocity.y = defVelocity;
+        else if(bottom() > wndHeight)
+            velocity.y = -defVelocity;
     }
 };
 
@@ -67,8 +71,8 @@ public:
     sf::RectangleShape shape;
     sf::Vector2f velocity;
 
-    Paddle(float mX, float mY) 
-    { 
+    Paddle(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
         shape.setSize({defWidth, defHeight});
         shape.setFillColor(defColor);
@@ -83,29 +87,31 @@ public:
 
     void draw(sf::RenderWindow& mTarget) { mTarget.draw(shape); }
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float width() const noexcept    { return shape.getSize().x; }
-    float height() const noexcept   { return shape.getSize().y; }
-    float left() const noexcept     { return x() - width() / 2.f; }
-    float right() const noexcept    { return x() + width() / 2.f; }
-    float top() const noexcept      { return y() - height() / 2.f; }
-    float bottom() const noexcept   { return y() + height() / 2.f; }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float width() const noexcept { return shape.getSize().x; }
+    float height() const noexcept { return shape.getSize().y; }
+    float left() const noexcept { return x() - width() / 2.f; }
+    float right() const noexcept { return x() + width() / 2.f; }
+    float top() const noexcept { return y() - height() / 2.f; }
+    float bottom() const noexcept { return y() + height() / 2.f; }
 
 private:
     void processPlayerInput()
     {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) 
-            && left() > 0) velocity.x = -defVelocity;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) 
-            && right() < wndWidth) velocity.x = defVelocity;
-        else velocity.x = 0;    
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && left() > 0)
+            velocity.x = -defVelocity;
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) &&
+                right() < wndWidth)
+            velocity.x = defVelocity;
+        else
+            velocity.x = 0;
     }
 };
 
 const sf::Color Paddle::defColor{sf::Color::Red};
 
-// The class for the `Brick` game object will be very similar 
+// The class for the `Brick` game object will be very similar
 // to the `Paddle` class.
 class Brick
 {
@@ -115,42 +121,42 @@ public:
     static constexpr float defHeight{20.f};
     static constexpr float defVelocity{8.f};
 
-    sf::RectangleShape shape;   
+    sf::RectangleShape shape;
 
     // We'll add a `destroyed` bool value that will keep track
-    // of the brick's status. If the brick has been hit by a 
+    // of the brick's status. If the brick has been hit by a
     // ball, `destroyed` will be set to true. In the game loop
     // we'll then remove all bricks marked as such.
     bool destroyed{false};
 
-    Brick(float mX, float mY) 
-    { 
+    Brick(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
         shape.setSize({defWidth, defHeight});
         shape.setFillColor(defColor);
         shape.setOrigin(defWidth / 2.f, defHeight / 2.f);
     }
 
-    void update() { }
+    void update() {}
     void draw(sf::RenderWindow& mTarget) { mTarget.draw(shape); }
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float width() const noexcept    { return shape.getSize().x; }
-    float height() const noexcept   { return shape.getSize().y; }
-    float left() const noexcept     { return x() - width() / 2.f; }
-    float right() const noexcept    { return x() + width() / 2.f; }
-    float top() const noexcept      { return y() - height() / 2.f; }
-    float bottom() const noexcept   { return y() + height() / 2.f; }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float width() const noexcept { return shape.getSize().x; }
+    float height() const noexcept { return shape.getSize().y; }
+    float left() const noexcept { return x() - width() / 2.f; }
+    float right() const noexcept { return x() + width() / 2.f; }
+    float top() const noexcept { return y() - height() / 2.f; }
+    float bottom() const noexcept { return y() + height() / 2.f; }
 };
 
 const sf::Color Brick::defColor{sf::Color::Yellow};
 
-template<typename T1, typename T2> 
+template <typename T1, typename T2>
 bool isIntersecting(const T1& mA, const T2& mB) noexcept
 {
-    return  mA.right() >= mB.left() && mA.left() <= mB.right() 
-            && mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
+    return mA.right() >= mB.left() && mA.left() <= mB.right() &&
+           mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
 }
 
 void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
@@ -158,11 +164,11 @@ void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
     if(!isIntersecting(mPaddle, mBall)) return;
 
     mBall.velocity.y = -Ball::defVelocity;
-    mBall.velocity.x = mBall.x() < mPaddle.x() ? 
-        -Ball::defVelocity : Ball::defVelocity;
+    mBall.velocity.x =
+        mBall.x() < mPaddle.x() ? -Ball::defVelocity : Ball::defVelocity;
 }
 
-int main() 
+int main()
 {
     Ball ball{wndWidth / 2.f, wndHeight / 2.f};
     Paddle paddle{wndWidth / 2, wndHeight - 50};
@@ -183,15 +189,13 @@ int main()
 
     // We fill up our vector via a 2D for loop, creating bricks
     // in a grid-like pattern on the screen.
-    for(int iX{0}; iX < brkCountX; ++iX)    
-        for(int iY{0}; iY < brkCountY; ++iY)        
+    for(int iX{0}; iX < brkCountX; ++iX)
+        for(int iY{0}; iY < brkCountY; ++iY)
         {
-            float x{(iX + brkStartColumn) 
-                * (Brick::defWidth + brkSpacing)};
-            float y{(iY + brkStartRow) 
-                * (Brick::defHeight + brkSpacing)};
+            float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
+            float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
 
-            bricks.emplace_back(brkOffsetX + x, y); 
+            bricks.emplace_back(brkOffsetX + x, y);
         }
 
     sf::RenderWindow window{{wndWidth, wndHeight}, "Arkanoid - 6"};
@@ -201,13 +205,12 @@ int main()
     {
         window.clear(sf::Color::Black);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
-            break;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
 
         ball.update();
         paddle.update();
-        
-        // Let's not forget to update and draw every brick in 
+
+        // Let's not forget to update and draw every brick in
         // the game loop.
         for(auto& brick : bricks) brick.update();
 
@@ -218,7 +221,7 @@ int main()
         for(auto& brick : bricks) brick.draw(window);
 
         window.display();
-    }   
+    }
 
     return 0;
 }

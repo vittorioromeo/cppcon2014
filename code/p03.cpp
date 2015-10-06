@@ -3,7 +3,7 @@
 // http://vittorioromeo.info | vittorio.romeo@outlook.com
 
 // The ball moves! However, we need to find a way to stop it from
-// leaving the window's bounds. 
+// leaving the window's bounds.
 
 // By testing if the X coordinate of the ball exceeds the window's
 // width or is less than 0 we can check if the ball left the window
@@ -32,21 +32,21 @@ public:
         shape.setOrigin(defRadius, defRadius);
     }
 
-    // We will need to get very often the ball's left/right/top/bottom 
+    // We will need to get very often the ball's left/right/top/bottom
     // bounds. Let's define some simple getters to help us.
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float left() const noexcept     { return x() - shape.getRadius(); }
-    float right() const noexcept    { return x() + shape.getRadius(); }
-    float top() const noexcept      { return y() - shape.getRadius(); }
-    float bottom() const noexcept   { return y() + shape.getRadius(); }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float left() const noexcept { return x() - shape.getRadius(); }
+    float right() const noexcept { return x() + shape.getRadius(); }
+    float top() const noexcept { return y() - shape.getRadius(); }
+    float bottom() const noexcept { return y() + shape.getRadius(); }
 
     void update()
     {
         // We need to keep the ball "inside the window".
-        // The most common (and probably best) way of doing this, and 
+        // The most common (and probably best) way of doing this, and
         // of dealing with any kind of collision detection, is moving
-        // the object first, then checking if it's intersecting 
+        // the object first, then checking if it's intersecting
         // something.
         // If the test is positive, we simply respond to the collision
         // by altering the object's position and/or velocity.
@@ -55,7 +55,7 @@ public:
         shape.move(velocity);
 
         // After the ball has moved, it may be "outside the window".
-        // We need to check every direction and respond by changing 
+        // We need to check every direction and respond by changing
         // the velocity.
 
         // If it's leaving towards the left, we need to set
@@ -63,13 +63,16 @@ public:
         if(left() < 0) velocity.x = defVelocity;
 
         // Otherwise, if it's leaving towards the right, we need to
-        // set horizontal velocity to a negative value (towards the 
+        // set horizontal velocity to a negative value (towards the
         // left).
-        else if(right() > wndWidth) velocity.x = -defVelocity;
+        else if(right() > wndWidth)
+            velocity.x = -defVelocity;
 
         // The same idea can be applied for top/bottom collisions.
-        if(top() < 0) velocity.y = defVelocity;
-        else if(bottom() > wndHeight) velocity.y = -defVelocity;
+        if(top() < 0)
+            velocity.y = defVelocity;
+        else if(bottom() > wndHeight)
+            velocity.y = -defVelocity;
     }
 
     void draw(sf::RenderWindow& mTarget) { mTarget.draw(shape); }
@@ -77,10 +80,10 @@ public:
 
 const sf::Color Ball::defColor{sf::Color::Red};
 
-int main() 
+int main()
 {
     Ball ball{wndWidth / 2.f, wndHeight / 2.f};
-    
+
     sf::RenderWindow window{{wndWidth, wndHeight}, "Arkanoid - 3"};
     window.setFramerateLimit(60);
 
@@ -94,7 +97,7 @@ int main()
         ball.draw(window);
 
         window.display();
-    }   
+    }
 
     return 0;
 }

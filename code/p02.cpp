@@ -33,8 +33,8 @@ public:
     // ball as two float arguments.
     Ball(float mX, float mY)
     {
-        // SFML uses a coordinate system with the origin in 
-        // the top-left corner of the window. 
+        // SFML uses a coordinate system with the origin in
+        // the top-left corner of the window.
         // {Info: coordinate system}
 
         shape.setPosition(mX, mY);
@@ -45,10 +45,10 @@ public:
 
     // In our design every "game object" will have an `update` method
     // and a `draw` method.
-    
+
     // The `update` method will update the game object's logic.
-    
-    // The `draw` method will draw the game object on the screen. 
+
+    // The `draw` method will draw the game object on the screen.
     // It will take a reference to a `sf::RenderWindow` as a parameter
     // that will be our drawing target.
 
@@ -71,11 +71,11 @@ public:
 // Static data members must be initialized outside of the class.
 const sf::Color Ball::defColor{sf::Color::Red};
 
-int main() 
+int main()
 {
     // Let's create an instance of `Ball`, positioned in the center.
     Ball ball{wndWidth / 2.f, wndHeight / 2.f};
-    
+
     sf::RenderWindow window{{wndWidth, wndHeight}, "Arkanoid - 2"};
     window.setFramerateLimit(60);
 
@@ -90,7 +90,7 @@ int main()
         ball.draw(window);
 
         window.display();
-    }   
+    }
 
     return 0;
 }

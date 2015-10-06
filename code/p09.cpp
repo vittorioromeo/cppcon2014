@@ -2,7 +2,7 @@
 // License: MIT License | http://opensource.org/licenses/MIT
 // http://vittorioromeo.info | vittorio.romeo@outlook.com
 
-// In this code segment we'll start improving the game's code 
+// In this code segment we'll start improving the game's code
 // architecture. The first step will be creating a `Game` class
 // that will encapsulate the game's state.
 
@@ -14,27 +14,27 @@ struct Rectangle
 {
     sf::RectangleShape shape;
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float width() const noexcept    { return shape.getSize().x; }
-    float height() const noexcept   { return shape.getSize().y; }
-    float left() const noexcept     { return x() - width() / 2.f; }
-    float right() const noexcept    { return x() + width() / 2.f; }
-    float top() const noexcept      { return y() - height() / 2.f; }
-    float bottom() const noexcept   { return y() + height() / 2.f; }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float width() const noexcept { return shape.getSize().x; }
+    float height() const noexcept { return shape.getSize().y; }
+    float left() const noexcept { return x() - width() / 2.f; }
+    float right() const noexcept { return x() + width() / 2.f; }
+    float top() const noexcept { return y() - height() / 2.f; }
+    float bottom() const noexcept { return y() + height() / 2.f; }
 };
 
 struct Circle
 {
     sf::CircleShape shape;
 
-    float x() const noexcept        { return shape.getPosition().x; }
-    float y() const noexcept        { return shape.getPosition().y; }
-    float radius() const noexcept   { return shape.getRadius(); }
-    float left() const noexcept     { return x() - radius(); }
-    float right() const noexcept    { return x() + radius(); }
-    float top() const noexcept      { return y() - radius(); }
-    float bottom() const noexcept   { return y() + radius(); }
+    float x() const noexcept { return shape.getPosition().x; }
+    float y() const noexcept { return shape.getPosition().y; }
+    float radius() const noexcept { return shape.getRadius(); }
+    float left() const noexcept { return x() - radius(); }
+    float right() const noexcept { return x() + radius(); }
+    float top() const noexcept { return y() - radius(); }
+    float bottom() const noexcept { return y() + radius(); }
 };
 
 class Ball : public Circle
@@ -65,11 +65,15 @@ public:
 private:
     void solveBoundCollisions() noexcept
     {
-        if(left() < 0) velocity.x = defVelocity;
-        else if(right() > wndWidth) velocity.x = -defVelocity;
+        if(left() < 0)
+            velocity.x = defVelocity;
+        else if(right() > wndWidth)
+            velocity.x = -defVelocity;
 
-        if(top() < 0) velocity.y = defVelocity;
-        else if(bottom() > wndHeight) velocity.y = -defVelocity;
+        if(top() < 0)
+            velocity.y = defVelocity;
+        else if(bottom() > wndHeight)
+            velocity.y = -defVelocity;
     }
 };
 
@@ -85,8 +89,8 @@ public:
 
     sf::Vector2f velocity;
 
-    Paddle(float mX, float mY) 
-    { 
+    Paddle(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
         shape.setSize({defWidth, defHeight});
         shape.setFillColor(defColor);
@@ -104,11 +108,13 @@ public:
 private:
     void processPlayerInput()
     {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) 
-            && left() > 0) velocity.x = -defVelocity;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) 
-            && right() < wndWidth) velocity.x = defVelocity;
-        else velocity.x = 0;    
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && left() > 0)
+            velocity.x = -defVelocity;
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) &&
+                right() < wndWidth)
+            velocity.x = defVelocity;
+        else
+            velocity.x = 0;
     }
 };
 
@@ -124,25 +130,25 @@ public:
 
     bool destroyed{false};
 
-    Brick(float mX, float mY) 
-    { 
+    Brick(float mX, float mY)
+    {
         shape.setPosition(mX, mY);
         shape.setSize({defWidth, defHeight});
         shape.setFillColor(defColor);
         shape.setOrigin(defWidth / 2.f, defHeight / 2.f);
     }
 
-    void update() { }
+    void update() {}
     void draw(sf::RenderWindow& mTarget) { mTarget.draw(shape); }
 };
 
 const sf::Color Brick::defColor{sf::Color::Yellow};
 
-template<typename T1, typename T2> 
+template <typename T1, typename T2>
 bool isIntersecting(const T1& mA, const T2& mB) noexcept
 {
-    return  mA.right() >= mB.left() && mA.left() <= mB.right() 
-            && mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
+    return mA.right() >= mB.left() && mA.left() <= mB.right() &&
+           mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
 }
 
 void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
@@ -150,8 +156,8 @@ void solvePaddleBallCollision(const Paddle& mPaddle, Ball& mBall) noexcept
     if(!isIntersecting(mPaddle, mBall)) return;
 
     mBall.velocity.y = -Ball::defVelocity;
-    mBall.velocity.x = mBall.x() < mPaddle.x() ? 
-        -Ball::defVelocity : Ball::defVelocity;
+    mBall.velocity.x =
+        mBall.x() < mPaddle.x() ? -Ball::defVelocity : Ball::defVelocity;
 }
 
 void solveBrickBallCollision(Brick& mBrick, Ball& mBall) noexcept
@@ -170,12 +176,11 @@ void solveBrickBallCollision(Brick& mBrick, Ball& mBall) noexcept
     float minOverlapX{ballFromLeft ? overlapLeft : overlapRight};
     float minOverlapY{ballFromTop ? overlapTop : overlapBottom};
 
-    if(std::abs(minOverlapX) < std::abs(minOverlapY))   
-        mBall.velocity.x = ballFromLeft ? 
-            -Ball::defVelocity : Ball::defVelocity;
-    else                                        
-        mBall.velocity.y = ballFromTop ? 
-            -Ball::defVelocity : Ball::defVelocity; 
+    if(std::abs(minOverlapX) < std::abs(minOverlapY))
+        mBall.velocity.x =
+            ballFromLeft ? -Ball::defVelocity : Ball::defVelocity;
+    else
+        mBall.velocity.y = ballFromTop ? -Ball::defVelocity : Ball::defVelocity;
 }
 
 // The `Game` class will store game constants and elements, and
@@ -185,11 +190,15 @@ class Game
 {
 private:
     // Let's create an enum for the possible game states.
-    enum class State{Paused, InProgress};
-    
-    static constexpr int brkCountX{11}, brkCountY{4};       
-    static constexpr int brkStartColumn{1}, brkStartRow{2};     
-    static constexpr float brkSpacing{3.f}, brkOffsetX{22.f};   
+    enum class State
+    {
+        Paused,
+        InProgress
+    };
+
+    static constexpr int brkCountX{11}, brkCountY{4};
+    static constexpr int brkStartColumn{1}, brkStartRow{2};
+    static constexpr float brkSpacing{3.f}, brkOffsetX{22.f};
 
     sf::RenderWindow window{{wndWidth, wndHeight}, "Arkanoid - 9"};
 
@@ -210,17 +219,15 @@ public:
     {
         state = State::Paused;
 
-        for(int iX{0}; iX < brkCountX; ++iX)    
-            for(int iY{0}; iY < brkCountY; ++iY)        
+        for(int iX{0}; iX < brkCountX; ++iX)
+            for(int iY{0}; iY < brkCountY; ++iY)
             {
-                float x{(iX + brkStartColumn) 
-                    * (Brick::defWidth + brkSpacing)};
-                float y{(iY + brkStartRow) 
-                    * (Brick::defHeight + brkSpacing)};
+                float x{(iX + brkStartColumn) * (Brick::defWidth + brkSpacing)};
+                float y{(iY + brkStartRow) * (Brick::defHeight + brkSpacing)};
 
-                bricks.emplace_back(brkOffsetX + x, y); 
+                bricks.emplace_back(brkOffsetX + x, y);
             }
-        
+
         ball = Ball{wndWidth / 2.f, wndHeight / 2.f};
         paddle = Paddle{wndWidth / 2, wndHeight - 50};
     }
@@ -232,31 +239,30 @@ public:
         {
             window.clear(sf::Color::Black);
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
-                break;
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
 
             // The `P` key will toggle the pause. To prevent continuous
             // use of the pause button, we need to check if the input
             // was pressed last frame.
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
             {
-                // If `P` was not pressed last frame, we can toggle 
+                // If `P` was not pressed last frame, we can toggle
                 // the state.
-                if(!pausePressedLastFrame) 
+                if(!pausePressedLastFrame)
                 {
-                    if(state == State::Paused) 
+                    if(state == State::Paused)
                         state = State::InProgress;
-                    else if(state == State::InProgress) 
+                    else if(state == State::InProgress)
                         state = State::Paused;
                 }
 
                 pausePressedLastFrame = true;
-            }               
-            else pausePressedLastFrame = false;
+            }
+            else
+                pausePressedLastFrame = false;
 
             // Let's also use the `R` key to restart the game.
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) 
-                restart();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) restart();
 
             // If the game is paused, we'll only draw game elements,
             // without updating them.
@@ -266,17 +272,19 @@ public:
 
                 ball.update();
                 paddle.update();
-                for(auto& brick : bricks) 
+                for(auto& brick : bricks)
                 {
                     brick.update();
                     solveBrickBallCollision(brick, ball);
                 }
 
                 bricks.erase(
-                    std::remove_if(std::begin(bricks), std::end(bricks), 
-                    [](const auto& mBrick){ return mBrick.destroyed; }), 
-                    std::end(bricks)
-                );
+                    std::remove_if(std::begin(bricks), std::end(bricks),
+                        [](const auto& mBrick)
+                        {
+                            return mBrick.destroyed;
+                        }),
+                    std::end(bricks));
 
                 solvePaddleBallCollision(paddle, ball);
             }
@@ -286,14 +294,16 @@ public:
             for(auto& brick : bricks) brick.draw(window);
 
             window.display();
-        }   
+        }
     }
 };
 
-int main() 
+int main()
 {
-    // To start our game, we create a `Game` instance, 
+    // To start our game, we create a `Game` instance,
     // restart it and run it.
-    Game game; game.restart(); game.run();
+    Game game;
+    game.restart();
+    game.run();
     return 0;
 }
